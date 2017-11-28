@@ -19,7 +19,7 @@ namespace GameOfLife.Model
             Cells = new Cell[rows, columns];
             for (var x = 0; x < rows; x++)
             {
-                for (var y = 0; y < rows; y++)
+                for (var y = 0; y < columns; y++)
                 {
                     Cells[x, y] = new Cell(x,y);
                 }
