@@ -9,6 +9,6 @@ namespace GameOfLife.Contracts
 {
     public interface ICellStateCalculator
     {
-        bool CalculateCellStateForNextGen(Cell cell, CellGrid grid);
+        bool CalculateCellStateForNextGen(Cell cell, Generation generation);
     }
 }

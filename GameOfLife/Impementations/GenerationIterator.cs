@@ -17,19 +17,13 @@ namespace GameOfLife.Impementations
             _cellStateCalculator = cellStateCalculator;
         }
 
-        public CellGrid NextGeneration(CellGrid cellGrid)
+        public Generation NextGeneration(Generation generation)
         {
-            var nextGenerationGrid = cellGrid.Clone();
-            for (var x = 0; x < cellGrid.Rows; x++)
+            var nextGenerationGrid = generation.Clone();
+            foreach (var cell in generation.Cells)
             {
-                for(var y=0; y < cellGrid.Columns; y++)
-                {
-                    var currentGenerationCell = cellGrid.Cells[x, y];
-                    var nextGenerationCell = nextGenerationGrid.Cells[x, y];
-
-                    nextGenerationCell.IsAlive = _cellStateCalculator.CalculateCellStateForNextGen(currentGenerationCell, cellGrid);
-                    //nextGenerationCell.StateChangedFromPreviousGen = currentGenerationCell.IsAlive != nextGenerationCell.IsAlive;
-                }
+                var nextGenerationCell = nextGenerationGrid.Cells[cell.Coordinates.Row, cell.Coordinates.Column];
+                nextGenerationCell.IsAlive = _cellStateCalculator.CalculateCellStateForNextGen(cell, generation);
             }
 
             return nextGenerationGrid;

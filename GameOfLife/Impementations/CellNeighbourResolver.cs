@@ -10,49 +10,49 @@ namespace GameOfLife.Impementations
 {
     public class CellNeighbourResolver : ICellNeighbourResolver
     {
-        public CellCoordinates GetNeighbourCoordinates(Cell cell, CellGrid grid, NeighbourPosition position)
+        public CellCoordinates GetNeighbourCoordinates(Cell cell, Generation generation, NeighbourPosition position)
         {
-            var maxX = grid.Rows - 1;
-            var maxY = grid.Columns - 1;
-            var x = 0;
-            var y = 0;
+            var maxRow = generation.Rows - 1;
+            var maxColumn = generation.Columns - 1;
+            var row = 0;
+            var column = 0;
             switch (position)
             {
                 case NeighbourPosition.TopLeft:
-                    x = HandleOutOfBounds(cell.Coordinates.X - 1, maxX);
-                    y = HandleOutOfBounds(cell.Coordinates.Y - 1, maxY);
+                    column = HandleOutOfBounds(cell.Coordinates.Column - 1, maxColumn);
+                    row = HandleOutOfBounds(cell.Coordinates.Row - 1, maxRow);
                     break;
                 case NeighbourPosition.Top:
-                    x = HandleOutOfBounds(cell.Coordinates.X - 1, maxX);
-                    y = cell.Coordinates.Y;
+                    column = cell.Coordinates.Column;
+                    row = HandleOutOfBounds(cell.Coordinates.Row - 1, maxRow);
                     break;
                 case NeighbourPosition.TopRight:
-                    x = HandleOutOfBounds(cell.Coordinates.X - 1, maxX);
-                    y = HandleOutOfBounds(cell.Coordinates.Y + 1, maxY);
+                    column = HandleOutOfBounds(cell.Coordinates.Column + 1, maxColumn);
+                    row = HandleOutOfBounds(cell.Coordinates.Row - 1, maxRow);
                     break;
                 case NeighbourPosition.Right:
-                    x = cell.Coordinates.X;
-                    y = HandleOutOfBounds(cell.Coordinates.Y + 1, maxY);
+                    column = HandleOutOfBounds(cell.Coordinates.Column + 1, maxColumn);
+                    row = cell.Coordinates.Row;
                     break;
                 case NeighbourPosition.BottomRight:
-                    x = HandleOutOfBounds(cell.Coordinates.X + 1, maxX);
-                    y = HandleOutOfBounds(cell.Coordinates.Y + 1, maxY);
+                    column = HandleOutOfBounds(cell.Coordinates.Column + 1, maxColumn);
+                    row = HandleOutOfBounds(cell.Coordinates.Row + 1, maxRow);
                     break;
                 case NeighbourPosition.Bottom:
-                    x = HandleOutOfBounds(cell.Coordinates.X + 1, maxX);
-                    y = cell.Coordinates.Y;
+                    column = cell.Coordinates.Column;
+                    row = HandleOutOfBounds(cell.Coordinates.Row + 1, maxRow);
                     break;
                 case NeighbourPosition.BottomLeft:
-                    x = HandleOutOfBounds(cell.Coordinates.X + 1, maxX);
-                    y = HandleOutOfBounds(cell.Coordinates.Y - 1, maxY);
+                    column = HandleOutOfBounds(cell.Coordinates.Column - 1, maxColumn);
+                    row = HandleOutOfBounds(cell.Coordinates.Row + 1, maxRow);
                     break;
                 case NeighbourPosition.Left:
-                    x = cell.Coordinates.X;
-                    y = HandleOutOfBounds(cell.Coordinates.Y - 1, maxY);
+                    row = cell.Coordinates.Row;
+                    column = HandleOutOfBounds(cell.Coordinates.Column - 1, maxColumn);
                     break;
             }
 
-            return new CellCoordinates(x, y);
+            return new CellCoordinates(row, column);
         }
 
         private int HandleOutOfBounds(int coordinate, int maxCoordinateValue)

@@ -1,6 +1,6 @@
 ﻿namespace GameOfLife.Controls
 {
-    partial class CellViewer
+    partial class CellGrid
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,14 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // CellViewer
+            // CellGrid
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Name = "CellViewer";
-            this.Size = new System.Drawing.Size(20, 20);
+            this.Name = "CellGrid";
+            this.Size = new System.Drawing.Size(567, 429);
             this.ResumeLayout(false);
 
         }

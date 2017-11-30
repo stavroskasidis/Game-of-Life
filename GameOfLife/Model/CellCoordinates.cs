@@ -8,13 +8,13 @@ namespace GameOfLife.Model
 {
     public class CellCoordinates
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int Row { get; set; }
+        public int Column { get; set; }
 
-        public CellCoordinates(int x, int y)
+        public CellCoordinates(int row, int column)
         {
-            this.X = x;
-            this.Y = y;
+            this.Row = row;
+            this.Column = column;
         }
     }
 }

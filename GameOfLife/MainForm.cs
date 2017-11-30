@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,107 +17,119 @@ namespace GameOfLife
 {
     public partial class MainForm : Form
     {
-        private CellGrid CurrentCellGrid = new CellGrid(34, 49);
+        private readonly int _cellSize = 20;
+        private readonly int _rows = 34;
+        private readonly int _columns = 49;
+        private readonly int _fps = 15;
+        private Generation _currentGeneration;
         private IGenerationIterator _generationIterator;
-        private ICellRenderer _cellRenderer;
-        private ICellViewerLocator _cellViewerLocator;
         private volatile bool _isRunning = false;
         private Random _random = new Random();
+        private CellGrid _cellGridViewer;
+        private StackWithLimit<Generation> _generationHistory = new StackWithLimit<Generation>(1000);
 
         public MainForm()
         {
             InitializeComponent();
-            var cellGridUIInitializer = new UICellGridInitializer();
-            cellGridUIInitializer.InitializeCellGridUI(this.CellContainer, this.CurrentCellGrid);
+            
+            _currentGeneration = new Generation(_rows, _columns);
+            _cellGridViewer = new CellGrid(_currentGeneration, _cellSize);
+            this.Controls.Add(_cellGridViewer);
+            this.PreviousGenerationButton.Enabled = false;
 
+            this.AutoTimer.Interval = 1000 / _fps;
+            _cellGridViewer.Location = new Point(12, 32);
             _generationIterator = new GenerationIterator(new CellStateCalculator(new CellNeighbourResolver()));
-            _cellViewerLocator = new CellViewerLocator();
-            _cellRenderer = new CellRenderer(_cellViewerLocator);
         }
 
-        private void SetCellsClickable(bool areClickable)
+        private void SetUI(bool isRunning)
         {
-            foreach (var viewer in this.CellContainer.Controls.Cast<CellViewer>())
+            StartButton.Text = isRunning ? "Stop" : "Auto";
+            RandomizeButton.Enabled = !isRunning;
+            ClearButton.Enabled = !isRunning;
+            NextGenerationButton.Enabled = !isRunning;
+            PreviousGenerationButton.Enabled = !isRunning && _generationHistory.Count > 0;
+            _cellGridViewer.AllowClick = !isRunning;
+        }
+
+        private void NextGeneration()
+        {
+            var nextGenGrid = _generationIterator.NextGeneration(_currentGeneration);
+            this.Invoke((MethodInvoker)delegate
             {
-                viewer.AllowUserStateChange = areClickable;
+                _cellGridViewer.UpdateCellGrid(nextGenGrid);
+            });
+
+            _generationHistory.Push(_currentGeneration);
+            _currentGeneration = nextGenGrid;
+        }
+
+        private void PreviousGeneration()
+        {
+            var previousGen = _generationHistory.Pop();
+            if(previousGen != null)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    _cellGridViewer.UpdateCellGrid(previousGen);
+                });
+                _currentGeneration = previousGen;
             }
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            if (!_isRunning)
+            _isRunning = !_isRunning;
+            SetUI(_isRunning);
+            if (_isRunning)
             {
-                StartButton.Text = "Stop";
-                RandomizeButton.Enabled = false;
-                ClearButton.Enabled = false;
-                _isRunning = true;
-                SetCellsClickable(false);
-
-                Task.Run(() =>
-                {
-                    while (_isRunning)
-                    {
-                        var nextGenGrid = _generationIterator.NextGeneration(CurrentCellGrid);
-                        //var changedCells = nextGenGrid.Cells.Cast<Cell>().Where(x => x.StateChangedFromPreviousGen);
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            foreach (var cell in nextGenGrid.Cells.Cast<Cell>())
-                            {
-                                _cellRenderer.UpdateCellViewer(CellContainer, cell);
-                            }
-                        });
-
-                        CurrentCellGrid = nextGenGrid;
-                        Application.DoEvents();
-                    }
-                });
+                AutoTimer.Start();
             }
             else
             {
-                StartButton.Text = "Start";
-                _isRunning = false;
-                RandomizeButton.Enabled = true;
-                ClearButton.Enabled = true;
-                SetCellsClickable(true);
+                AutoTimer.Stop();
             }
         }
 
         private void RandomizeButton_Click(object sender, EventArgs e)
         {
-            for (var x = 0; x < CurrentCellGrid.Rows; x++)
+            foreach (var cell in _currentGeneration.Cells.Cast<Cell>())
             {
-                for (var y = 0; y < CurrentCellGrid.Columns; y++)
-                {
-                    var cell = CurrentCellGrid.Cells[x, y];
-                    var newState = _random.Next(2) == 1;
-                    var stateChanged = cell.IsAlive != newState;
-                    cell.IsAlive = newState;
-                    if (stateChanged)
-                    {
-                        var cellViewer = _cellViewerLocator.FindCellViewer(CellContainer, cell.Coordinates);
-                        cellViewer.Refresh();
-                    }
-                }
+                cell.IsAlive = _random.Next(2) == 1;
             }
+
+            _cellGridViewer.Invalidate();
+            PreviousGenerationButton.Enabled = false;
+            _generationHistory.Clear();
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            for (var x = 0; x < CurrentCellGrid.Rows; x++)
+            foreach (var cell in _currentGeneration.Cells.Cast<Cell>())
             {
-                for (var y = 0; y < CurrentCellGrid.Columns; y++)
-                {
-                    var cell = CurrentCellGrid.Cells[x, y];
-                    var newState = false;
-                    var stateChanged = cell.IsAlive != newState;
-                    cell.IsAlive = newState;
-                    if (stateChanged)
-                    {
-                        var cellViewer = _cellViewerLocator.FindCellViewer(CellContainer, cell.Coordinates);
-                        cellViewer.Refresh();
-                    }
-                }
+                cell.IsAlive = false;
             }
+
+            _cellGridViewer.Invalidate();
+            PreviousGenerationButton.Enabled = false;
+            _generationHistory.Clear();
+        }
+
+        private void NextGenerationButton_Click(object sender, EventArgs e)
+        {
+            NextGeneration();
+            PreviousGenerationButton.Enabled = _generationHistory.Count > 0;
+        }
+
+        private void PreviousGenerationButton_Click(object sender, EventArgs e)
+        {
+            PreviousGeneration();
+            PreviousGenerationButton.Enabled = _generationHistory.Count > 0;
+        }
+
+        private void AutoTimer_Tick(object sender, EventArgs e)
+        {
+            NextGeneration();
         }
     }
 }

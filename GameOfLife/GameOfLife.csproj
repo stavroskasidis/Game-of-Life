@@ -46,23 +46,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\ICellNeighbourResolver.cs" />
-    <Compile Include="Contracts\ICellRenderer.cs" />
     <Compile Include="Contracts\ICellStateCalculator.cs" />
-    <Compile Include="Contracts\ICellViewerLocator.cs" />
     <Compile Include="Contracts\IGenerationIterator.cs" />
-    <Compile Include="Controls\CellViewer.cs">
+    <Compile Include="Controls\CellGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CellViewer.Designer.cs">
-      <DependentUpon>CellViewer.cs</DependentUpon>
+    <Compile Include="Controls\CellGrid.Designer.cs">
+      <DependentUpon>CellGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Contracts\ICellGridUIInitializer.cs" />
     <Compile Include="Impementations\CellNeighbourResolver.cs" />
-    <Compile Include="Impementations\CellRenderer.cs" />
     <Compile Include="Impementations\CellStateCalculator.cs" />
-    <Compile Include="Impementations\CellViewerLocator.cs" />
     <Compile Include="Impementations\GenerationIterator.cs" />
-    <Compile Include="Impementations\UICellGridInitializer.cs" />
+    <Compile Include="Impementations\StackWithLimit.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,12 +66,12 @@
     </Compile>
     <Compile Include="Model\Cell.cs" />
     <Compile Include="Model\CellCoordinates.cs" />
-    <Compile Include="Model\CellGrid.cs" />
+    <Compile Include="Model\Generation.cs" />
     <Compile Include="Model\NeighbourPosition.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\CellViewer.resx">
-      <DependentUpon>CellViewer.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\CellGrid.resx">
+      <DependentUpon>CellGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

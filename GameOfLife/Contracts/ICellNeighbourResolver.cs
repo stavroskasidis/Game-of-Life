@@ -9,6 +9,6 @@ namespace GameOfLife.Contracts
 {
     public interface ICellNeighbourResolver
     {
-        CellCoordinates GetNeighbourCoordinates(Cell cell, CellGrid grid ,NeighbourPosition position);
+        CellCoordinates GetNeighbourCoordinates(Cell cell, Generation generation ,NeighbourPosition position);
     }
 }

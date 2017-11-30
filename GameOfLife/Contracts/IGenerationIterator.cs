@@ -9,6 +9,6 @@ namespace GameOfLife.Contracts
 {
     public interface IGenerationIterator
     {
-        CellGrid NextGeneration(CellGrid cellGrid);
+        Generation NextGeneration(Generation generation);
     }
 }

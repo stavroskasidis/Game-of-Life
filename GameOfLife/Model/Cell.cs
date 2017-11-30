@@ -10,11 +10,10 @@ namespace GameOfLife.Model
     {
         public CellCoordinates Coordinates { get; set; }
         public bool IsAlive { get; set; }
-        //public bool StateChangedFromPreviousGen { get; set; } = false;
 
-        public Cell(int x, int y)
+        public Cell(int row, int column)
         {
-            Coordinates = new CellCoordinates(x, y);
+            Coordinates = new CellCoordinates(row, column);
         }
 
        

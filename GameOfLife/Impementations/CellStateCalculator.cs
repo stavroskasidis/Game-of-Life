@@ -17,14 +17,14 @@ namespace GameOfLife.Impementations
             _cellNeighbourResolver = cellNeighbourResolver;
         }
 
-        public bool CalculateCellStateForNextGen(Cell cell, CellGrid grid)
+        public bool CalculateCellStateForNextGen(Cell cell, Generation generation)
         {
             var currentCellCoordinates = cell.Coordinates;
             var neighbourCells = new List<Cell>();
             foreach (var position in Enum.GetValues(typeof(NeighbourPosition)).Cast<NeighbourPosition>())
             {
-                var coordinates = _cellNeighbourResolver.GetNeighbourCoordinates(cell, grid, position);
-                neighbourCells.Add(grid.Cells[coordinates.X, coordinates.Y]);
+                var coordinates = _cellNeighbourResolver.GetNeighbourCoordinates(cell, generation, position);
+                neighbourCells.Add(generation.Cells[coordinates.Row, coordinates.Column]);
             }
 
             var aliveNeighboursCount = neighbourCells.Count(x => x.IsAlive);
