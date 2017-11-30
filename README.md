@@ -1,3 +1,5 @@
-# Game-of-Life
+# Conway's Game-of-Life
 
-Download from here
+Info: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+
+Download from [here](https://github.com/stavroskasidis/Game-of-Life/releases)
