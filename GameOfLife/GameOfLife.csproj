@@ -54,10 +54,10 @@
     <Compile Include="Controls\CellGrid.Designer.cs">
       <DependentUpon>CellGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Impementations\CellNeighbourResolver.cs" />
-    <Compile Include="Impementations\CellStateCalculator.cs" />
-    <Compile Include="Impementations\GenerationIterator.cs" />
-    <Compile Include="Impementations\StackWithLimit.cs" />
+    <Compile Include="Implementations\CellNeighbourResolver.cs" />
+    <Compile Include="Implementations\CellStateCalculator.cs" />
+    <Compile Include="Implementations\GenerationIterator.cs" />
+    <Compile Include="Implementations\StackWithLimit.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

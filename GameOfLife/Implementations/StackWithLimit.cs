@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameOfLife.Impementations
+namespace GameOfLife.Implementations
 {
     public class StackWithLimit<T> : IEnumerable<T>
     {

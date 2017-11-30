@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameOfLife.Model;
 
-namespace GameOfLife.Impementations
+namespace GameOfLife.Implementations
 {
     public class CellNeighbourResolver : ICellNeighbourResolver
     {

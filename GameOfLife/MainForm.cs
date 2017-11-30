@@ -1,6 +1,6 @@
 ﻿using GameOfLife.Contracts;
 using GameOfLife.Controls;
-using GameOfLife.Impementations;
+using GameOfLife.Implementations;
 using GameOfLife.Model;
 using System;
 using System.Collections.Generic;
