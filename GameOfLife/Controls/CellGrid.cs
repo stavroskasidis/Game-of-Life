@@ -14,23 +14,23 @@ namespace GameOfLife.Controls
 {
     public partial class CellGrid : UserControl
     {
-        private Generation _cellGrid;
+        private Generation _generation;
         private int _cellSize;
         public bool AllowClick { get; set; } = true;
 
-        public CellGrid(Generation cellGrid, int cellSize)
+        public CellGrid(Generation generation, int cellSize)
         {
             InitializeComponent();
-            _cellGrid = cellGrid;
+            _generation = generation;
             _cellSize = cellSize;
-            this.Width = _cellGrid.Columns * _cellSize;
-            this.Height = _cellGrid.Rows * _cellSize;
+            this.Width = _generation.Columns * _cellSize;
+            this.Height = _generation.Rows * _cellSize;
             DoubleBuffered = true;
         }
 
         public void UpdateCellGrid(Generation cellGrid)
         {
-            _cellGrid = cellGrid;
+            _generation = cellGrid;
             this.Invalidate();
         }
 
@@ -38,7 +38,7 @@ namespace GameOfLife.Controls
         {
             if (AllowClick && e.Button == MouseButtons.Left)
             {
-                var cell = _cellGrid.Cells[e.Y / _cellSize, e.X / _cellSize];
+                var cell = _generation.Cells[e.Y / _cellSize, e.X / _cellSize];
                 cell.IsAlive = !cell.IsAlive;
                 this.Invalidate();
             }
@@ -53,7 +53,7 @@ namespace GameOfLife.Controls
             {
                 pen.Alignment = PenAlignment.Inset;
 
-                foreach (var cell in _cellGrid.Cells)
+                foreach (var cell in _generation.Cells)
                 {
                     var row = cell.Coordinates.Row;
                     var column = cell.Coordinates.Column;

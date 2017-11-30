@@ -25,7 +25,7 @@ namespace GameOfLife
         private IGenerationIterator _generationIterator;
         private volatile bool _isRunning = false;
         private Random _random = new Random();
-        private CellGrid _cellGridViewer;
+        private CellGrid _cellGrid;
         private StackWithLimit<Generation> _generationHistory = new StackWithLimit<Generation>(1000);
 
         public MainForm()
@@ -33,13 +33,13 @@ namespace GameOfLife
             InitializeComponent();
             
             _currentGeneration = new Generation(_rows, _columns);
-            _cellGridViewer = new CellGrid(_currentGeneration, _cellSize);
-            this.Controls.Add(_cellGridViewer);
+            _cellGrid = new CellGrid(_currentGeneration, _cellSize);
+            this.Controls.Add(_cellGrid);
             this.PreviousGenerationButton.Enabled = false;
 
             this.AutoTimer.Interval = 1000 / _fps;
-            _cellGridViewer.Location = new Point(12, 32);
-            _generationIterator = new GenerationIterator(new CellStateCalculator(new CellNeighbourResolver()));
+            _cellGrid.Location = new Point(12, 32);
+            _generationIterator = new GenerationIterator(new CellStateCalculator(new CellNeighbourResolver()), new GenerationCloner());
         }
 
         private void SetUI(bool isRunning)
@@ -49,19 +49,19 @@ namespace GameOfLife
             ClearButton.Enabled = !isRunning;
             NextGenerationButton.Enabled = !isRunning;
             PreviousGenerationButton.Enabled = !isRunning && _generationHistory.Count > 0;
-            _cellGridViewer.AllowClick = !isRunning;
+            _cellGrid.AllowClick = !isRunning;
         }
 
         private void NextGeneration()
         {
-            var nextGenGrid = _generationIterator.NextGeneration(_currentGeneration);
+            var nextGeneration = _generationIterator.NextGeneration(_currentGeneration);
             this.Invoke((MethodInvoker)delegate
             {
-                _cellGridViewer.UpdateCellGrid(nextGenGrid);
+                _cellGrid.UpdateCellGrid(nextGeneration);
             });
 
             _generationHistory.Push(_currentGeneration);
-            _currentGeneration = nextGenGrid;
+            _currentGeneration = nextGeneration;
         }
 
         private void PreviousGeneration()
@@ -71,7 +71,7 @@ namespace GameOfLife
             {
                 this.Invoke((MethodInvoker)delegate
                 {
-                    _cellGridViewer.UpdateCellGrid(previousGen);
+                    _cellGrid.UpdateCellGrid(previousGen);
                 });
                 _currentGeneration = previousGen;
             }
@@ -98,7 +98,7 @@ namespace GameOfLife
                 cell.IsAlive = _random.Next(2) == 1;
             }
 
-            _cellGridViewer.Invalidate();
+            _cellGrid.Invalidate();
             PreviousGenerationButton.Enabled = false;
             _generationHistory.Clear();
         }
@@ -110,7 +110,7 @@ namespace GameOfLife
                 cell.IsAlive = false;
             }
 
-            _cellGridViewer.Invalidate();
+            _cellGrid.Invalidate();
             PreviousGenerationButton.Enabled = false;
             _generationHistory.Clear();
         }

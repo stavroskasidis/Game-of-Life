@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Contracts\ICellNeighbourResolver.cs" />
     <Compile Include="Contracts\ICellStateCalculator.cs" />
+    <Compile Include="Contracts\IGenerationCloner.cs" />
     <Compile Include="Contracts\IGenerationIterator.cs" />
     <Compile Include="Controls\CellGrid.cs">
       <SubType>UserControl</SubType>
@@ -56,6 +57,7 @@
     </Compile>
     <Compile Include="Implementations\CellNeighbourResolver.cs" />
     <Compile Include="Implementations\CellStateCalculator.cs" />
+    <Compile Include="Implementations\GenerationCloner.cs" />
     <Compile Include="Implementations\GenerationIterator.cs" />
     <Compile Include="Implementations\StackWithLimit.cs" />
     <Compile Include="MainForm.cs">

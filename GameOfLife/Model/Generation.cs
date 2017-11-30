@@ -21,20 +21,9 @@ namespace GameOfLife.Model
             {
                 for (var column = 0; column < columns; column++)
                 {
-                    Cells[row,column] = new Cell(row, column);
+                    Cells[row, column] = new Cell(row, column);
                 }
             }
-        }
-
-        public Generation Clone()
-        {
-            var clone = new Generation(Rows, Columns);
-            foreach(var cell in this.Cells)
-            {
-                var cloneCell = clone.Cells[cell.Coordinates.Row, cell.Coordinates.Column];
-                cloneCell.IsAlive = cell.IsAlive;
-            }
-            return clone;
         }
     }
 }
