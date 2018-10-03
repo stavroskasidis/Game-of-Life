@@ -42,7 +42,7 @@ namespace GameOfLife.Implementations
             }
             else
             {
-                return aliveNeighboursCount == 3 ? true : false;
+                return aliveNeighboursCount == 3;
             }
         }
     }
