@@ -4,25 +4,61 @@
 
 
 <div>
-    <label>Fps:</label>
-    <input type="number" @bind="fps" disabled="@isRunning" />
+    <label>Size:</label>
+    <input type="number" @bind="rows" disabled="@isRunning" style="width: 50px;" max="50" min="1"/>
+    <label>X</label>
+    <input type="number" @bind="cols" disabled="@isRunning" style="width: 50px;" class="mr-1" max="50" min="1"/>
+    <label>FPS:</label>
+    <input type="number" @bind="fps" disabled="@isRunning" style="width: 41px;" class="mr-1" max="60" min="1"/>
     <button class="btn btn-primary" @onclick="StartStopOnClick">@(isRunning ? "Stop" : "Auto")</button>
     <button class="btn btn-primary" @onclick="RandomizeOnClick" disabled="@isRunning">Randomize</button>
     <button class="btn btn-danger" @onclick="ClearOnClick" disabled="@isRunning">Clear</button>
 </div>
 
-<CellGrid Generation="currentGeneration" IsRunning="isRunning"/>
+<CellGrid Generation="currentGeneration" IsRunning="isRunning" />
 
 @code{
 
-    Generation currentGeneration = new Generation(20, 30);
+    Generation currentGeneration;
     bool isRunning => GameTimer != null;
     System.Threading.Timer GameTimer;
     private int fps = 30;
+    private int _rows = 20;
+    private int rows
+    {
+        get => _rows;
+        set
+        {
+            _rows = value;
+            InitGeneration();
+        }
+    }
+    private int _cols = 30;
+    private int cols
+    {
+        get => _cols;
+        set
+        {
+            _cols = value;
+            InitGeneration();
+        }
+    }
+
+    private bool changingSize = false;
+
+    protected override void OnInitialized()
+    {
+        InitGeneration();
+    }
+
+    void InitGeneration()
+    {
+        currentGeneration = new Generation(rows, cols);
+    }
 
     void StartStopOnClick()
     {
-        if(GameTimer == null)
+        if (GameTimer == null)
         {
             GameTimer = new System.Threading.Timer(_ =>
             {
