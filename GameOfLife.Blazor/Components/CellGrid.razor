@@ -1,12 +1,12 @@
 ﻿
 <table class="cell-grid">
-    @for (int i = 0; i < Generation.Cells.GetLength(0); i++)
+    @for (int row = 0; row < Generation.Rows; row++)
     {
         <tr class="cell-row">
-            @for (int j = 0; j < Generation.Cells.GetLength(1); j++)
+            @for (int col = 0; col < Generation.Columns; col++)
             {
                 <td>
-                    <CellDisplay Cell="@Generation.Cells[i,j]" IsRunning="IsRunning" />
+                    <CellDisplay Cell="@Generation.Cells[row,col]" IsRunning="IsRunning" />
                 </td>
             }
         </tr>
