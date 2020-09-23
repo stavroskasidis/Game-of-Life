@@ -1,4 +1,4 @@
-﻿<div class="cell @(Cell.IsAlive ? "cell-alive" : "")" @onclick="OnCellClick"></div>
+﻿<div class="cell@(Cell.IsAlive ? " cell-alive" : "")" @onclick="OnCellClick"></div>
 @code {
     [Parameter] public Cell Cell { get; set; }
     [Parameter] public bool IsRunning { get; set; }
