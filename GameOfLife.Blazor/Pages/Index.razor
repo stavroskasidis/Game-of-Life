@@ -1,0 +1,51 @@
+﻿@page "/"
+@inject IGenerationIterator generationIterator
+@inject IGenerationSetter generationSetter
+
+
+<div>
+    <label>Fps:</label>
+    <input type="number" @bind="fps" disabled="@isRunning" />
+    <button class="btn btn-primary" @onclick="StartStopOnClick">@(isRunning ? "Stop" : "Auto")</button>
+    <button class="btn btn-primary" @onclick="RandomizeOnClick" disabled="@isRunning">Randomize</button>
+    <button class="btn btn-danger" @onclick="ClearOnClick" disabled="@isRunning">Clear</button>
+</div>
+
+<CellGrid Generation="currentGeneration" IsRunning="isRunning"/>
+
+@code{
+
+    Generation currentGeneration = new Generation(20, 30);
+    bool isRunning => GameTimer != null;
+    System.Threading.Timer GameTimer;
+    private int fps = 30;
+
+    void StartStopOnClick()
+    {
+        if(GameTimer == null)
+        {
+            GameTimer = new System.Threading.Timer(_ =>
+            {
+                var nextGeneration = generationIterator.NextGeneration(currentGeneration);
+                InvokeAsync(StateHasChanged);
+                currentGeneration = nextGeneration;
+
+            }, null, 0, 1000 / fps);
+        }
+        else
+        {
+            GameTimer.Dispose();
+            GameTimer = null;
+        }
+    }
+
+    void RandomizeOnClick()
+    {
+        generationSetter.Randomize(currentGeneration);
+    }
+
+    void ClearOnClick()
+    {
+        generationSetter.Clear(currentGeneration);
+    }
+}

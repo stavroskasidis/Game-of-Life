@@ -1,0 +1,20 @@
+﻿
+<table class="cell-grid">
+    @for (int i = 0; i < Generation.Cells.GetLength(0); i++)
+    {
+        <tr class="cell-row">
+            @for (int j = 0; j < Generation.Cells.GetLength(1); j++)
+            {
+                <td>
+                    <CellDisplay Cell="@Generation.Cells[i,j]" IsRunning="IsRunning" />
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+@code
+{
+    [Parameter] public Generation Generation { get; set; }
+    [Parameter] public bool IsRunning { get; set; }
+}

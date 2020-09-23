@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife", "GameOfLife\GameOfLife.csproj", "{31D6C036-3B50-4E1D-A759-6408372A971F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Win", "GameOfLife.Win\GameOfLife.Win.csproj", "{31D6C036-3B50-4E1D-A759-6408372A971F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Engine", "GameOfLife.Engine\GameOfLife.Engine.csproj", "{724070E8-D99C-4A57-B6C9-D588095CCDB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Blazor", "GameOfLife.Blazor\GameOfLife.Blazor.csproj", "{466072BF-8C39-4642-9B02-D096AA78B06F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{31D6C036-3B50-4E1D-A759-6408372A971F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31D6C036-3B50-4E1D-A759-6408372A971F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31D6C036-3B50-4E1D-A759-6408372A971F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{724070E8-D99C-4A57-B6C9-D588095CCDB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{724070E8-D99C-4A57-B6C9-D588095CCDB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{724070E8-D99C-4A57-B6C9-D588095CCDB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{724070E8-D99C-4A57-B6C9-D588095CCDB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{466072BF-8C39-4642-9B02-D096AA78B06F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{466072BF-8C39-4642-9B02-D096AA78B06F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{466072BF-8C39-4642-9B02-D096AA78B06F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{466072BF-8C39-4642-9B02-D096AA78B06F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
